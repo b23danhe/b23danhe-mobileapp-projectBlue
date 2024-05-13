@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         adapter = new RecyclerViewAdapter(this, listOfPlantor, new RecyclerViewAdapter.OnClickListener() {
             @Override
@@ -46,10 +49,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         Gson gson = new Gson();
         Type type = new TypeToken<List<Planta>>() {}.getType();
         listOfPlantor = gson.fromJson(json, type);
-        Log.d("Mountains", "" + listOfPlantor.size());
+        Log.d("Plantor", "" + listOfPlantor.size());
 
-        adapter.update(listOfPlantor);  //Updaterar listan med mountains
-        adapter.notifyDataSetChanged();  //Refreshar RecyclerView så att den nya listan med berg visas
+        adapter.update(listOfPlantor);  //Updaterar listan med plantor
+        adapter.notifyDataSetChanged();  //Refreshar RecyclerView så att den nya listan med plantor visas
 
         for (Planta planta : listOfPlantor){
             Log.d("Planta" , planta.toString());
