@@ -1,5 +1,6 @@
 package com.example.projectblue;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         adapter = new RecyclerViewAdapter(this, listOfPlantor, new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(Planta planta) {
+                Intent intent = new Intent(MainActivity.this, PlantaActivity.class);
+
                 Toast.makeText(MainActivity.this, planta.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("Planta1" , planta.toString());
             }
