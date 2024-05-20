@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 intent.putExtra("family", planta.getFamily());
                 intent.putExtra("image", planta.getImageUrl());
 
-                Toast.makeText(MainActivity.this, planta.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("Planta1" , planta.toString());
 
                 startActivity(intent);

@@ -43,7 +43,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(planta.getImageUrl())
                 .placeholder(R.drawable.item_background)
                 .into(holder.bgImage);
-        holder.title.setText(planta.getName());
+        holder.title.setText("  " + planta.getName() + "  ");
+        holder.room.setText("  " + planta.getLocation() + "  ");
     }
 
     @Override
@@ -52,13 +53,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title;
+        TextView title, room;
         ImageView bgImage;
 
         ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            title = itemView.findViewById(R.id.title);
+            title = itemView.findViewById(R.id.title_name);
+            room = itemView.findViewById(R.id.title_room);
             bgImage = itemView.findViewById(R.id.bg_image);
         }
 
@@ -70,12 +72,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public interface OnClickListener {
-        void onClick(Planta plantor);
+        void onClick(Planta planta);
     }
 
-    //Skickar in listOfMountains och updaterar listan i RecyclerView så att dom visas
-    public void update(ArrayList newPlantor){
-        plantor.addAll(newPlantor);
+    //Skickar in listOfPlantor och updaterar listan i RecyclerView så att dom visas
+    public void update(ArrayList<Planta> listOfPlantor){
+        plantor.clear();
+        plantor.addAll(listOfPlantor);
     }
 
 }

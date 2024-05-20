@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mina Växter</string>
+    <string name="sample_text">Sample Text</string>
+    <string name="image_description">Plant image</string>
 </resources>

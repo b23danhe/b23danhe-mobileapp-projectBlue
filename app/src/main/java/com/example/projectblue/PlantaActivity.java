@@ -39,5 +39,14 @@ public class PlantaActivity extends AppCompatActivity {
 
         TextView plantaName = findViewById(R.id.planta_name);
         plantaName.setText(name);
+
+        TextView plantaLatin = findViewById(R.id.planta_latin);
+        plantaLatin.setText(latin);
+
+        TextView plantaFamily = findViewById(R.id.planta_family);
+        plantaFamily.setText(family);
+
+        TextView plantaRoom = findViewById(R.id.planta_room);
+        plantaRoom.setText(room);
     }
 }

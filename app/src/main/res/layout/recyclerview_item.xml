@@ -4,23 +4,36 @@
 android:layout_width="match_parent"
 android:layout_height="wrap_content" >
 
-<ImageView
-    android:id="@+id/bg_image"
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:layout_marginTop="5dp"
-    android:scaleType="centerCrop"
-    android:background="@drawable/item_background" />
+    <ImageView
+        android:id="@+id/bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/image_description"
+        android:background="@drawable/item_background" />
 
-<TextView
-    android:id="@+id/title"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:layout_marginBottom="5dp"
-    android:text="Sample Text"
-    android:textColor="@android:color/white"
-    android:textSize="30sp"
-    android:background="#66000000" />
+    <TextView
+        android:id="@+id/title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@string/sample_text"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:background="#66000000" />
+
+    <TextView
+        android:id="@+id/title_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="5dp"
+        android:text="@string/sample_text"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:background="#66000000" />
+
+
 
 </FrameLayout>
