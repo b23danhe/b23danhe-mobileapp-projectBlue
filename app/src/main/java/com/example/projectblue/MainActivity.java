@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         for (Planta planta : listOfPlantor){
             Log.d("Planta" , planta.toString());
+            Log.d("Planta", planta.getImageUrl());
         }
         Log.d("Plantor", json);
     }
