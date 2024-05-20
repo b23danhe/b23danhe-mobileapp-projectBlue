@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load(planta.getImageUrl())
                 .placeholder(R.drawable.item_background)
                 .into(holder.bgImage);
-        holder.title.setText(planta.toString());
+        holder.title.setText(planta.getName());
     }
 
     @Override

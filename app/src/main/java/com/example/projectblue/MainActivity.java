@@ -34,9 +34,16 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             @Override
             public void onClick(Planta planta) {
                 Intent intent = new Intent(MainActivity.this, PlantaActivity.class);
+                intent.putExtra("name", planta.getName());
+                intent.putExtra("latin", planta.getLatinName());
+                intent.putExtra("room", planta.getLocation());
+                intent.putExtra("family", planta.getFamily());
+                intent.putExtra("image", planta.getImageUrl());
 
                 Toast.makeText(MainActivity.this, planta.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("Planta1" , planta.toString());
+
+                startActivity(intent);
             }
         });
 
