@@ -27,6 +27,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
     Toolbar toolbar;
+    BottomNavigationView bottomNavigationView;
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=b23danhe";
     private RecyclerViewAdapter adapter;
     private ArrayList<Planta> listOfPlantor = new ArrayList<>();
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
 
         adapter = new RecyclerViewAdapter(this, listOfPlantor, new RecyclerViewAdapter.OnClickListener() {
             @Override
@@ -69,10 +70,11 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                     showFilterDialog();
                 }
                 else if (itemId == R.id.action_home) {
-                    Toast.makeText(MainActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Hem clicked", Toast.LENGTH_SHORT).show();
                 }
                 else if (itemId == R.id.action_about) {
-                    Toast.makeText(MainActivity.this, "About clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, OmActivity.class);
+                    startActivity(intent);
                 }
 
                 return true;
@@ -98,13 +100,26 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     }
 
     private void showFilterDialog() {
-        String[] filterOptions = {"Option 1", "Option 2", "Option 3"};
+        String[] filterOptions = {"Kök", "Sovrum", "Tv-Rum", "Rensa filter"};
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Select Filter")
                 .setItems(filterOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(MainActivity.this, "Selected: " + filterOptions[which], Toast.LENGTH_SHORT).show();
+                        switch (filterOptions[which]) {
+                            case "Kök":
+                                Log.d("selected1", filterOptions[which]);
+                                break;
+                            case "Sovrum":
+                                Log.d("selected2", filterOptions[which]);
+                                break;
+                            case "Tv-rum":
+                                Log.d("selected3", filterOptions[which]);
+                                break;
+                            case "Rensa filter":
+                                Log.d("selected4", filterOptions[which]);
+                                break;
+                        }
                     }
                 })
                 .show();
