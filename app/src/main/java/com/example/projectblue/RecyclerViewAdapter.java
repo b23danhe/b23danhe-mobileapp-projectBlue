@@ -21,12 +21,14 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private ArrayList<Planta> plantor;
+    private ArrayList<Planta> originalPlantor;
     private LayoutInflater layoutInflater;
     private OnClickListener onClickListener;
 
     RecyclerViewAdapter(Context context, ArrayList<Planta> plantor, OnClickListener onClickListener) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.plantor = plantor;
+        this.plantor = new ArrayList<>(plantor);
+        this.originalPlantor = plantor;
         this.onClickListener = onClickListener;
     }
 
@@ -76,9 +78,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     //Skickar in listOfPlantor och updaterar listan i RecyclerView så att dom visas
-    public void update(ArrayList<Planta> listOfPlantor){
-        plantor.clear();
-        plantor.addAll(listOfPlantor);
+    public void update(ArrayList<Planta> newPlantList){
+        plantor = new ArrayList<>(newPlantList); // Updaterar listan meds en kopia
+        originalPlantor = newPlantList;
+        //plantor.clear();
+        //plantor.addAll(listOfPlantor);
+        notifyDataSetChanged();
+    }
+
+    public void filter(String location) {
+        if (location.equals("Rensa filter")) {
+            plantor = new ArrayList<>(originalPlantor); // Nollställer till original listan med plantor
+        }
+        else {
+            ArrayList<Planta> filteredList = new ArrayList<>();
+            for (Planta planta : originalPlantor) {
+                if (planta.getLocation().equalsIgnoreCase(location)) {
+                    filteredList.add(planta);
+                }
+            }
+            plantor = filteredList;
+        }
+        notifyDataSetChanged();
     }
 
 }

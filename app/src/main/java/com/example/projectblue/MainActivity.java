@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=b23danhe";
     private RecyclerViewAdapter adapter;
     private ArrayList<Planta> listOfPlantor = new ArrayList<>();
+    private String[] filterOptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,29 +99,32 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             Log.d("Planta", planta.getImageUrl());
         }
         Log.d("Plantor", json);
+
+        // Extract unique locations
+        HashSet<String> uniqueLocations = new HashSet<>();
+        for (Planta planta : listOfPlantor) {
+            uniqueLocations.add(planta.getLocation());
+        }
+        uniqueLocations.add("Rensa filter"); // Add an option to clear the filter
+
+        // Convert the set to a list and then to an array
+        filterOptions = new ArrayList<>(uniqueLocations).toArray(new String[0]);
     }
 
     private void showFilterDialog() {
-        String[] filterOptions = {"Kök", "Sovrum", "Tv-Rum", "Rensa filter"};
+        if (filterOptions == null || filterOptions.length == 0) {
+            Toast.makeText(this, "No filter options available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new MaterialAlertDialogBuilder(this)
                 .setTitle("Select Filter")
                 .setItems(filterOptions, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (filterOptions[which]) {
-                            case "Kök":
-                                Log.d("selected1", filterOptions[which]);
-                                break;
-                            case "Sovrum":
-                                Log.d("selected2", filterOptions[which]);
-                                break;
-                            case "Tv-rum":
-                                Log.d("selected3", filterOptions[which]);
-                                break;
-                            case "Rensa filter":
-                                Log.d("selected4", filterOptions[which]);
-                                break;
-                        }
+                        String selectedFilter = filterOptions[which];
+                        adapter.filter(selectedFilter); // Apply the filter
+                        Toast.makeText(MainActivity.this, "Selected: " + selectedFilter, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
