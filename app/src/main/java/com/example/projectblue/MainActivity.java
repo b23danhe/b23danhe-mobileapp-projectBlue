@@ -80,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 if (itemId == R.id.action_filter) {
                     showFilterDialog();
                 }
-                else if (itemId == R.id.action_home) {
-                    Toast.makeText(MainActivity.this, "Hem clicked", Toast.LENGTH_SHORT).show();
+                else if (itemId == R.id.action_add) {
+                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    startActivity(intent);
                 }
                 else if (itemId == R.id.action_about) {
                     Intent intent = new Intent(MainActivity.this, OmActivity.class);
