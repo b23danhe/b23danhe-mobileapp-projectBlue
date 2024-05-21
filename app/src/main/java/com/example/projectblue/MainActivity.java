@@ -1,17 +1,24 @@
 package com.example.projectblue;
 
+import com.example.projectblue.R;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -19,6 +26,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
+    Toolbar toolbar;
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=b23danhe";
     private RecyclerViewAdapter adapter;
     private ArrayList<Planta> listOfPlantor = new ArrayList<>();
@@ -27,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
 
         adapter = new RecyclerViewAdapter(this, listOfPlantor, new RecyclerViewAdapter.OnClickListener() {
             @Override
@@ -51,6 +60,24 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         RecyclerView view = findViewById(R.id.recycler_view);
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_filter) {
+                    showFilterDialog();
+                }
+                else if (itemId == R.id.action_home) {
+                    Toast.makeText(MainActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
+                }
+                else if (itemId == R.id.action_about) {
+                    Toast.makeText(MainActivity.this, "About clicked", Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
+            }
+        });
     }
 
     @Override
@@ -68,5 +95,18 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             Log.d("Planta", planta.getImageUrl());
         }
         Log.d("Plantor", json);
+    }
+
+    private void showFilterDialog() {
+        String[] filterOptions = {"Option 1", "Option 2", "Option 3"};
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Select Filter")
+                .setItems(filterOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this, "Selected: " + filterOptions[which], Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
     }
 }
