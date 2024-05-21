@@ -4,6 +4,7 @@ import com.example.projectblue.R;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,7 +34,11 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private RecyclerViewAdapter adapter;
     private ArrayList<Planta> listOfPlantor = new ArrayList<>();
     private String[] filterOptions;
-
+    private SharedPreferences myPreferenceRef;
+    private SharedPreferences.Editor myPreferenceEditor;
+    private static final String PREFERENCE_NAME = "MyPreferences";
+    private static final String FILTER_KEY = "preferredFilter";
+    private String currentFilter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         bottomNavigationView = findViewById(R.id.bottom_nav);
+
+        myPreferenceRef = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        myPreferenceEditor = myPreferenceRef.edit();
 
         adapter = new RecyclerViewAdapter(this, listOfPlantor, new RecyclerViewAdapter.OnClickListener() {
             @Override
@@ -64,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
+        // The navigationBar on the bottom of the screen
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -82,6 +91,13 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 return true;
             }
         });
+
+        // Load preferred filter and apply it
+        String preferredFilter = myPreferenceRef.getString(FILTER_KEY, null);
+        if (preferredFilter != null) {
+            currentFilter = preferredFilter.equals("Rensa filter") ? null : preferredFilter;
+            adapter.filter(preferredFilter);
+        }
     }
 
     @Override
@@ -91,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         listOfPlantor = gson.fromJson(json, type);
         Log.d("Plantor", "" + listOfPlantor.size());
 
-        adapter.update(listOfPlantor);  //Updaterar listan med plantor
-        adapter.notifyDataSetChanged();  //Refreshar RecyclerView så att den nya listan med plantor visas
+       adapter.update(listOfPlantor);  //Updaterar listan med plantor
+       adapter.notifyDataSetChanged();  //Refreshar RecyclerView så att den nya listan med plantor visas
 
         for (Planta planta : listOfPlantor){
             Log.d("Planta" , planta.toString());
@@ -109,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         // Convert the set to a list and then to an array
         filterOptions = new ArrayList<>(uniqueLocations).toArray(new String[0]);
+
+        // Reapply the current filter if it exists
+        if (currentFilter != null && !currentFilter.equals("Rensa filter")) {
+            adapter.filter(currentFilter);
+            Log.d("DagensFilter", currentFilter);
+        }
     }
 
     private void showFilterDialog() {
@@ -125,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                         String selectedFilter = filterOptions[which];
                         adapter.filter(selectedFilter); // Apply the filter
                         Toast.makeText(MainActivity.this, "Selected: " + selectedFilter, Toast.LENGTH_SHORT).show();
+
+                        // Save the selected filter
+                        myPreferenceEditor.putString(FILTER_KEY, selectedFilter);
+                        myPreferenceEditor.apply();
                     }
                 })
                 .show();

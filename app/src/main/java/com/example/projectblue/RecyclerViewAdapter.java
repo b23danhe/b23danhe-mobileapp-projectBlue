@@ -83,7 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         originalPlantor = newPlantList;
         //plantor.clear();
         //plantor.addAll(listOfPlantor);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
     public void filter(String location) {
