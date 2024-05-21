@@ -20,11 +20,14 @@ import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
+    // List of plants to display and a copy for filtering
     private ArrayList<Planta> plantor;
     private ArrayList<Planta> originalPlantor;
+
     private LayoutInflater layoutInflater;
     private OnClickListener onClickListener;
 
+    // Constructor to initialize the adapter with context, list of plants, and click listener
     RecyclerViewAdapter(Context context, ArrayList<Planta> plantor, OnClickListener onClickListener) {
         this.layoutInflater = LayoutInflater.from(context);
         this.plantor = new ArrayList<>(plantor);
@@ -32,6 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.onClickListener = onClickListener;
     }
 
+    // Inflate the data to each item in the RecyclerView
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,9 +47,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Planta planta = plantor.get(position);
         Picasso.get()
                 .load(planta.getImageUrl())
+                // placeholder showing while image loads
                 .placeholder(R.drawable.item_background)
+                // loads plant images using Picasso
                 .into(holder.bgImage);
+        // Sets plant name
         holder.title.setText("  " + planta.getName() + "  ");
+        // Sets plant location
         holder.room.setText("  " + planta.getLocation() + "  ");
     }
 
@@ -54,6 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return plantor.size();
     }
 
+    // ViewHolder class to hold the view elements for each item
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, room;
         ImageView bgImage;
@@ -73,32 +82,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
+    // Interface for handling item clicks
     public interface OnClickListener {
         void onClick(Planta planta);
     }
 
-    //Skickar in listOfPlantor och updaterar listan i RecyclerView så att dom visas
+    // Updates the list of plants and notifies the adapter to refresh
     public void update(ArrayList<Planta> newPlantList){
-        plantor = new ArrayList<>(newPlantList); // Updaterar listan meds en kopia
+        // Updates the list with a copy
+        plantor = new ArrayList<>(newPlantList);
         originalPlantor = newPlantList;
-        //plantor.clear();
-        //plantor.addAll(listOfPlantor);
-        //notifyDataSetChanged();
     }
 
+    // Filters the list of plants based on the specified location
     public void filter(String location) {
         if (location.equals("Rensa filter")) {
-            plantor = new ArrayList<>(originalPlantor); // Nollställer till original listan med plantor
+            // Resets to the original list
+            plantor = new ArrayList<>(originalPlantor);
         }
         else {
             ArrayList<Planta> filteredList = new ArrayList<>();
             for (Planta planta : originalPlantor) {
                 if (planta.getLocation().equalsIgnoreCase(location)) {
+                    // Adds plants that match the location
                     filteredList.add(planta);
                 }
             }
             plantor = filteredList;
         }
+        // Notifies the adapter to refresh the RecyclerView
         notifyDataSetChanged();
     }
 
