@@ -5,4 +5,5 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#245326</color>
     <color name="colorAccent">#B5943F</color>
+    <color name="colorGradient">#AEA58E</color>
 </resources>

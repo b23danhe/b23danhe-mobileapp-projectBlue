@@ -5,12 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/planta_background"
     tools:context=".PlantaActivity">
 
     <ImageView
         android:id="@+id/planta_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:scaleType="centerCrop"
         android:contentDescription="@string/image_description"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
@@ -30,6 +32,7 @@
             android:id="@+id/planta_name"
             android:textSize="40sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             app:layout_constraintHorizontal_bias="0.0"
             android:layout_height="wrap_content"
