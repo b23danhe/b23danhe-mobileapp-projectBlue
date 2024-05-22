@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">PlantOllectA</string>
+    <string name="add_plant">Lägg till växt</string>
+    <string name="about_app">Om PlantOllectA</string>
     <string name="sample_text">Sample Text</string>
     <string name="image_description">Plant image</string>
 </resources>

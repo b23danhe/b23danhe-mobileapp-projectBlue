@@ -31,6 +31,9 @@ public class PlantaActivity extends AppCompatActivity {
             image = extras.getString("image");
         }
 
+        // Set the name of current plant as title
+        setTitle(name);
+
         // Load and display the image using Picasso
         ImageView plantaImage = findViewById(R.id.planta_image);
         Picasso.get()
